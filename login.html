@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — MyTutor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3 2 8l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg><img src="logo.png" alt="" class="brand-logo-img" loading="lazy" onload="this.classList.add(&#39;loaded&#39;)" onerror="this.remove()"></span>
+      <span class="brand-text"><span class="b1">Mytutor</span><span class="b2">MYTUTOR</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html" class="active">Home</a>
+      <a href="register.html?role=tutor">Become a Tutor</a>
+      <a href="register.html?role=student">Become a student</a>
+      <a href="find-tutor.html">Find a tutor</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main class="auth-wrap">
+  <div class="container">
+    <div class="auth-shell">
+      <div class="auth-art">
+        <img src="auth-illustration.jpg" alt="A tutor helping a student read together at a desk">
+      </div>
+      <div class="auth-form-side">
+        <h2>Login <span class="accent">Here</span></h2>
+        <p class="auth-sub">Welcome back — log in to message tutors, book sessions and track your learning.</p>
+
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="e.g. helen_t" data-required>
+            <div class="field-error">Please enter your username.</div>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-field">
+              <input type="password" id="password" name="password" placeholder="••••••••" data-required>
+              <button type="button" class="password-toggle">Show</button>
+            </div>
+            <div class="field-error">Please enter your password.</div>
+          </div>
+          <div class="checkbox-row" style="justify-content:space-between;">
+            <label style="display:flex;align-items:center;gap:8px;"><input type="checkbox" id="remember"> Remember me</label>
+            <a href="#" style="color:var(--orange-600);font-weight:700;">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
+        </form>
+
+        <div class="auth-foot">Don't have an account? <a href="register.html">Register here</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="js/main.js"></script>
+<script>
+  const form = document.getElementById('loginForm');
+  clearErrorsOnInput(form);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(!validateForm(form)) return;
+    const submitBtn = form.querySelector('button[type=submit]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Logging in…';
+    setTimeout(() => {
+      showToast('This is a design preview — no live account exists yet.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Login';
+    }, 900);
+  });
+</script>
+</body>
+</html>

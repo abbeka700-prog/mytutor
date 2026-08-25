@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutor Profile — MyTutor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3 2 8l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg><img src="logo.png" alt="" class="brand-logo-img" loading="lazy" onload="this.classList.add(&#39;loaded&#39;)" onerror="this.remove()"></span>
+      <span class="brand-text"><span class="b1">Mytutor</span><span class="b2">MYTUTOR</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="register.html?role=tutor">Become a Tutor</a>
+      <a href="register.html?role=student">Become a student</a>
+      <a href="find-tutor.html" class="active">Find a tutor</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main class="container" id="profileRoot" style="padding-top:30px;">
+  <!-- filled by JS -->
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3 2 8l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <img src="logo.png" alt="" class="brand-logo-img" loading="lazy" onload="this.classList.add(&#39;loaded&#39;)" onerror="this.remove()"></span>
+        <span class="brand-text b1">MyTutor</span>
+      </a>
+      <p>Empowering students across Ethiopia through quality education and expert tutoring.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="find-tutor.html">Tutors</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="contact.html">Help Center</a></li>
+        <li><a href="contact.html">FAQs</a></li>
+        <li><a href="#">Terms &amp; Conditions</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact Us</h5>
+      <div class="contact-line">📞 +251 9XX XXX XXX</div>
+      <div class="contact-line">✉️ info@mytutor.com.et</div>
+      <div class="contact-line">📍 Addis Ababa, Ethiopia</div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 MyTutor. All rights reserved.</div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const tutor = getTutorById(params.get('id')) || TUTORS[0];
+  const root = document.getElementById('profileRoot');
+  document.title = `${tutor.name} — MyTutor`;
+
+  const ratingCounts = { 5: tutor.reviews.filter(r=>r.stars===5).length, 4: tutor.reviews.filter(r=>r.stars===4).length, 3: tutor.reviews.filter(r=>r.stars===3).length, 2: tutor.reviews.filter(r=>r.stars===2).length, 1: tutor.reviews.filter(r=>r.stars===1).length };
+  const maxCount = Math.max(1, ...Object.values(ratingCounts));
+
+  root.innerHTML = `
+    <div class="profile-layout">
+      <div>
+        <div class="profile-card">
+          <div class="profile-head">
+            ${avatarHTML(tutor, 'profile-avatar')}
+            <div style="flex:1;min-width:240px;">
+              ${tutor.verified ? '<span class="verified-chip">✓ ID VERIFIED</span>' : ''}
+              <h1>${tutor.name}</h1>
+              <div class="profile-rating">
+                <span class="stars">${starString(tutor.rating)}</span>
+                <strong>${tutor.rating.toFixed(1)}</strong>
+                <span style="color:var(--ink-mute);">(${tutor.reviewCount} review${tutor.reviewCount>1?'s':''})</span>
+              </div>
+              <div class="profile-facts">
+                <div class="fact-item"><span class="f-ico">📘</span><div><strong>${tutor.subject}</strong><span>Preferred Subject</span></div></div>
+                <div class="fact-item"><span class="f-ico">🎓</span><div><strong>${tutor.grade}</strong><span>Tutor Type</span></div></div>
+                <div class="fact-item"><span class="f-ico">💵</span><div><strong>ETB ${tutor.rate}</strong><span>Hourly Rate</span></div></div>
+                <div class="fact-item"><span class="f-ico">💬</span><div><strong>${tutor.reviewCount}</strong><span>No. of Reviews</span></div></div>
+              </div>
+              <div class="profile-cta-row">
+                <a href="#availability" class="btn btn-primary">🗓️ View Availability</a>
+                <button class="btn btn-outline" id="msgBtn">💬 Send Message</button>
+              </div>
+              <div class="profile-location">📍 ${tutor.location}, Ethiopia</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-card section-block">
+          <h3><span class="sb-ico">👤</span>About Me</h3>
+          <p>${tutor.about}</p>
+        </div>
+
+        <div class="profile-card section-block">
+          <h3><span class="sb-ico">🎓</span>Educational Background</h3>
+          <p>${tutor.school} · ${tutor.degree}</p>
+        </div>
+
+        <div class="profile-card section-block">
+          <h3><span class="sb-ico">💼</span>Experience</h3>
+          <p>${tutor.experience}</p>
+        </div>
+
+        <div class="profile-card section-block" id="availability">
+          <h3><span class="sb-ico">📅</span>Availability</h3>
+          <table class="avail-table">
+            <thead><tr><th>Day</th><th>Schedule</th></tr></thead>
+            <tbody>
+              ${tutor.availability.map(a => `
+                <tr><td>${a.day}</td><td>${a.slots.map(s => `<span class="time-chip">${s}</span>`).join('')}</td></tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside>
+        <div class="contact-cta">
+          <p>To contact this tutor</p>
+          <a href="login.html" class="btn btn-primary btn-block">🔑 Please login</a>
+        </div>
+
+        <div class="sidebar-card">
+          <h3 style="font-family:var(--font-display);font-size:19px;margin-bottom:14px;">Ratings and Reviews</h3>
+          <div class="rr-score">
+            <div>
+              <div class="rr-num">${tutor.rating.toFixed(1)}</div>
+              <div class="rr-stars">${starString(tutor.rating)}</div>
+              <div style="font-size:12px;color:var(--ink-mute);">(${tutor.reviewCount} Review${tutor.reviewCount>1?'s':''})</div>
+            </div>
+            <div class="rr-bars">
+              ${[5,4,3,2,1].map(n => `
+                <div class="rr-bar-row">
+                  <span>${n}</span>
+                  <div class="rr-bar-track"><div class="rr-bar-fill" style="width:${(ratingCounts[n]/maxCount)*100}%"></div></div>
+                  <span>${ratingCounts[n]}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          ${tutor.reviews.map(r => `
+            <div class="review-item">
+              <div class="review-head">
+                ${avatarHTML(r, 'r-avatar')}
+                <div><strong>${r.name}</strong><span>${r.date}</span></div>
+              </div>
+              <div class="stars">${starString(r.stars)}</div>
+              <p>${r.text}</p>
+              ${r.responded ? '<span class="responded-chip">Responded</span>' : ''}
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="sidebar-card badge-list">
+          <div class="badge-item"><span class="b-ico">🛡️</span><div><strong>Verified Tutor</strong><span>ID verified and background checked</span></div></div>
+          <div class="badge-item"><span class="b-ico">🕒</span><div><strong>On-Time Sessions</strong><span>Punctual and reliable tutoring</span></div></div>
+          <div class="badge-item"><span class="b-ico">💬</span><div><strong>Clear Communication</strong><span>Regular updates and open communication</span></div></div>
+          <div class="badge-item"><span class="b-ico">⭐</span><div><strong>Student Focused</strong><span>Focused on your individual goals</span></div></div>
+        </div>
+      </aside>
+    </div>
+  `;
+
+  document.getElementById('msgBtn').addEventListener('click', () => showToast('Please log in to message this tutor.'));
+</script>
+</body>
+</html>

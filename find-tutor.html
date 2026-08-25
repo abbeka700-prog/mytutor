@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find a Tutor — MyTutor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3 2 8l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg><img src="logo.png" alt="" class="brand-logo-img" loading="lazy" onload="this.classList.add(&#39;loaded&#39;)" onerror="this.remove()"></span>
+      <span class="brand-text"><span class="b1">Mytutor</span><span class="b2">MYTUTOR</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="register.html?role=tutor">Become a Tutor</a>
+      <a href="register.html?role=student">Become a student</a>
+      <a href="find-tutor.html" class="active">Find a tutor</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="page-title-bar">
+  <h1>Tutor List</h1>
+  <div class="rule"></div>
+</div>
+
+<main class="container listing-layout">
+  <aside class="filters-card">
+    <h3>Filters</h3>
+    <div class="filter-field">
+      <label for="fGrade">Grade</label>
+      <select id="fGrade">
+        <option value="">All Grades</option>
+      </select>
+    </div>
+    <div class="filter-field">
+      <label for="fSubject">Subject</label>
+      <select id="fSubject">
+        <option value="">All Subjects</option>
+      </select>
+    </div>
+    <div class="filter-field">
+      <label for="fSearch">Search by name</label>
+      <input type="text" id="fSearch" placeholder="e.g. Daniel">
+    </div>
+    <button class="btn btn-primary btn-block" id="applyFilters">Apply Filters</button>
+
+    <div class="promo-box">
+      <strong>Welcome to MyTutor</strong>
+      Create your tutor profile now and let students find you! Enjoy flexible hours and competitive pay.
+      <br><a href="register.html?role=tutor">Apply here →</a>
+    </div>
+  </aside>
+
+  <section>
+    <div class="results-head">
+      <span id="resultsCount">Showing all tutors</span>
+    </div>
+    <div id="tutorList"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3 2 8l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg><img src="logo.png" alt="" class="brand-logo-img" loading="lazy" onload="this.classList.add(&#39;loaded&#39;)" onerror="this.remove()"></span>
+        <span class="brand-text b1">MyTutor</span>
+      </a>
+      <p>Empowering students across Ethiopia through quality education and expert tutoring.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="find-tutor.html">Tutors</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="contact.html">Help Center</a></li>
+        <li><a href="contact.html">FAQs</a></li>
+        <li><a href="#">Terms &amp; Conditions</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact Us</h5>
+      <div class="contact-line">📞 +251 9XX XXX XXX</div>
+      <div class="contact-line">✉️ info@mytutor.com.et</div>
+      <div class="contact-line">📍 Addis Ababa, Ethiopia</div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 MyTutor. All rights reserved.</div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const gradeSelect = document.getElementById('fGrade');
+  const subjectSelect = document.getElementById('fSubject');
+  const searchInput = document.getElementById('fSearch');
+  const listEl = document.getElementById('tutorList');
+  const countEl = document.getElementById('resultsCount');
+
+  [...new Set(TUTORS.map(t => t.grade))].sort().forEach(g => {
+    gradeSelect.insertAdjacentHTML('beforeend', `<option value="${g}">${g}</option>`);
+  });
+  [...new Set(TUTORS.map(t => t.subject))].sort().forEach(s => {
+    subjectSelect.insertAdjacentHTML('beforeend', `<option value="${s}">${s}</option>`);
+  });
+
+  function renderList(){
+    const grade = gradeSelect.value;
+    const subjectFilter = subjectSelect.value;
+    const term = searchInput.value.trim().toLowerCase();
+
+    const results = TUTORS.filter(t => {
+      if(grade && t.grade !== grade) return false;
+      if(subjectFilter && t.subject !== subjectFilter) return false;
+      if(term && !t.name.toLowerCase().includes(term)) return false;
+      return true;
+    });
+
+    countEl.textContent = results.length
+      ? `Showing ${results.length} tutor${results.length > 1 ? 's' : ''}`
+      : 'No tutors match your filters';
+
+    if(!results.length){
+      listEl.innerHTML = `<div class="empty-state"><div class="e-icon">🔍</div><p>No tutors found. Try clearing a filter.</p></div>`;
+      return;
+    }
+
+    listEl.innerHTML = results.map(t => `
+      <div class="list-row">
+        ${avatarHTML(t, 'lr-avatar')}
+        <div class="lr-info">
+          <h3>${t.name}</h3>
+          <div class="lr-rating"><span class="rating-badge">★ ${t.rating}</span> (${t.reviewCount} review${t.reviewCount>1?'s':''})</div>
+          <div class="lr-subject">${t.subject}</div>
+          <div class="lr-tags">
+            <span class="tag-pill">${t.grade}</span>
+            <span class="tag-pill">📍 ${t.location}</span>
+            <span class="tag-pill">🗓️ ${t.schedule}</span>
+          </div>
+        </div>
+        <div class="lr-action">
+          <a href="tutor-profile.html?id=${t.id}" class="btn btn-primary">View Profile</a>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('applyFilters').addEventListener('click', renderList);
+  searchInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') renderList(); });
+
+  // pre-fill subject filter from query string (e.g. from course cards on the home page)
+  const params = new URLSearchParams(location.search);
+  const subjParam = params.get('subject');
+  if(subjParam){
+    const match = [...subjectSelect.options].find(o => o.value.toLowerCase().includes(subjParam.toLowerCase()) );
+    if(match) subjectSelect.value = match.value;
+  }
+
+  renderList();
+</script>
+</body>
+</html>
